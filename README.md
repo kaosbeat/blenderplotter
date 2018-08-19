@@ -17,9 +17,12 @@ with python 2.7
 with python 3.5.3 API
 
 so using call from the belnder script to comunicate with chiplotle
+### svgPathTools (python)
+https://github.com/mathandy/svgpathtools
 
-##TODO
-###pipeline template
+
+## TODO
+### pipeline template
 * run script that generates geometry in blender
 * render the script  (preferably in the background) to SVG lines
 ** use differnt linestyles for hidden lines
