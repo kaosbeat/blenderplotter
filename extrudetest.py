@@ -15,6 +15,17 @@ obj = bpy.context.edit_object
 me = obj.data
 bm = bmesh.from_edit_mesh(me)
 print(len(bm.faces))
+
+#for face in bm.faces:
+#    face.select = False
+bpy.ops.mesh.select_all(action="DESELECT")
+
+bm.faces.ensure_lookup_table()
+bm.faces[4].select = True  # select index 4
+
+# Show the updates in the viewport
+bmesh.update_edit_mesh(me, True)
+#Duplicate Vert
 # inset
 
 # extrude
