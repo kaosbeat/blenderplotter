@@ -3,16 +3,19 @@ from chiplotle.tools.geometrytools.get_bounding_rectangle import get_bounding_re
 from chiplotle.tools.geometrytools.get_minmax_coordinates import get_minmax_coordinates
 from xml.dom import minidom
 # import xpath
+from plothelpers import sign
 
 from svgpathtools import svg2paths, svg2paths2, Path, Line, Arc, CubicBezier, QuadraticBezier
 import sys
 
 plotunit = 0.025
-virtualplotting = sys.argv[1]
-if (virtualplotting == True):
+virtualplotting = sys.argv[2]
+print(virtualplotting)
+if (virtualplotting == 'virtual'):
 		plotter = instantiate_virtual_plotter(type="DXY1300")
-else:
+if (virtualplotting == 'real'):
 		plotter = instantiate_plotters( )[0]
+		print("plotting for real")
 
 
 pltmax = [16158, 11040]
@@ -60,20 +63,27 @@ def calculatesvggroup(svg):
 	paths, attributes, svg_attributes = svg2paths2(svg)
 	#print svg_attributes
 	#paths, attributes = svg2paths(svg)
-	#print attributes
+	
 #	print dir(paths[0][0].start.real)
 	for idx, path in enumerate(paths):
+		print('\n')
+		print(idx)
+		print attributes[idx]['stroke']
 		stroke = attributes[idx]['stroke']
 		if stroke == 'rgb(157, 20, 170)': 
 			layer = g
 		if stroke == 'rgb(0, 119, 0)': 
 			layer = h
+		p = []
+		p.append((path[0].start.real,path[0].start.imag))
 		for segment in path:
 			if isinstance(segment, Line):
-				layer.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
+				p.append((segment.end.real,segment.end.imag))
+			#	layer.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
 			if isinstance(segment, CubicBezier):
-				print("Line found")
-				layer.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
+				print("Bezier found")
+			#	layer.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
+		layer.append(shapes.path(p))
 	bb = get_bounding_rectangle(g)
 	bb = get_minmax_coordinates(bb.points)
 	print (bb)
@@ -99,10 +109,12 @@ def grabSVGandplotWithChiplotle(file):
 	for idx, gr in enumerate(shape['group']):
 		plotter.select_pen(idx+1)
 		plotter.write(gr)
-	io.view(plotter)
+	
 
 
 
 print (sys.argv[1])
 grabSVGandplotWithChiplotle(sys.argv[1])
+plotter.write(sign(sys.argv[1]))
+io.view(plotter)
 # io.view(plotter)

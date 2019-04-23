@@ -9,7 +9,7 @@ layers[0] = True
 add_cube = bpy.ops.mesh.primitive_cube_add
 
 print(sys.argv)
-sysargvoffset = 6
+sysargvoffset = 5
 
 def dosomegeom():
     for locx in range(0,15,3):
@@ -19,10 +19,10 @@ def dosomegeom():
 def multicubegeom():
     #rot = [23,45,15]
     cubenum = sys.argv[sysargvoffset+2]
-    rot = [random.random()*90,45,15]
+    rot = [random.random()*90,random.random()*90,random.random()*90]
     for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
-        rad = random.random()*2+0.3
+        rad = random.random()*0.2+0.3
         add_cube(location=loc,rotation=rot, radius=rad)
 
 

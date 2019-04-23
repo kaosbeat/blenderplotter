@@ -15,9 +15,10 @@ echo $filename
 
 ### first generate geometry in blender, pass on filenames from argument, as well as parameters for geometry script
 /Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- $filename $2
-filename+=.svg
+filename+=0000.svg
 echo $filename
-/usr/local/bin/inkscape $PWD/$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSaveAs processed.svg --verb FileQuit
+cp $PWD/$filename $PWD/processed_$filename
+/usr/local/bin/inkscape $PWD/processed_$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSave --verb FileQuit
 git add $filename
 git commit -a -m "plotting $filename"
-python plotrender.py $3
+python plotrender.py $PWD/processed_$filename $3
