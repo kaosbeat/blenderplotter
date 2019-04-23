@@ -6,9 +6,10 @@ from xml.dom import minidom
 
 from svgpathtools import svg2paths, svg2paths2, Path, Line, Arc, CubicBezier, QuadraticBezier
 import sys
+import sys.argv
 
 plotunit = 0.025
-virtualplotting = False
+virtualplotting = sys.argv[1]
 if (virtualplotting == True):
 		plotter = instantiate_virtual_plotter(type="DXY1300")
 else:

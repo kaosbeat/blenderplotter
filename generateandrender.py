@@ -1,5 +1,5 @@
 import bpy
-import sys.argv
+import sys
 #from chiplotle import *
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
@@ -18,7 +18,7 @@ def multicubegeom():
     #rot = [23,45,15]
     cubenum = sys.argv[2]
     rot = [random.random()*90,45,15]
-    for i in range(0,cubenum,1):
+    for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
         rad = random.random()*2+0.3
         add_cube(location=loc,rotation=rot, radius=rad)
