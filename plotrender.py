@@ -6,7 +6,6 @@ from xml.dom import minidom
 
 from svgpathtools import svg2paths, svg2paths2, Path, Line, Arc, CubicBezier, QuadraticBezier
 import sys
-import sys.argv
 
 plotunit = 0.025
 virtualplotting = sys.argv[1]

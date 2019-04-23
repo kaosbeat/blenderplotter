@@ -8,6 +8,7 @@ layers = [False]*20
 layers[0] = True
 add_cube = bpy.ops.mesh.primitive_cube_add
 
+print(sys.argv)
 
 def dosomegeom():
     for locx in range(0,15,3):
