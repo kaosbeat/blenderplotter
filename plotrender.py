@@ -8,11 +8,17 @@ from svgpathtools import svg2paths, svg2paths2, Path, Line, Arc, CubicBezier, Qu
 import sys
 
 plotunit = 0.025
-virtualplotting = True
+virtualplotting = False
 if (virtualplotting == True):
-        plotter = instantiate_virtual_plotter(type="DXY1300")
+		plotter = instantiate_virtual_plotter(type="DXY1300")
 else:
-        plotter = instantiate_plotters( )[0]
+		plotter = instantiate_plotters( )[0]
+
+
+pltmax = [16158, 11040]
+bounds =shapes.rectangle(pltmax[0],pltmax[1])
+transforms.offset(bounds,(pltmax[0]/2,pltmax[1]/2) )
+#plotter.write(bounds)
 
 def getGroup(svg, groupname):
 	# doc = minidom.parse(svg)  # parseString also exists
@@ -26,13 +32,13 @@ def getGroup(svg, groupname):
 # from xml.dom.minidom import parse as p
 #parse your XML-document
 	doc = minidom.parse(svg)
-	print doc.childNodes[0].childNodes[1].getAttribute("id")
+	print(doc.childNodes[0].childNodes[1].getAttribute("id"))
 	# print doc.getElementById('#fressstylelayer_LineSet')  #>> None
-	print doc.childNodes[0].childNodes[1].nodeValue
+	print(doc.childNodes[0].childNodes[1].nodeValue)
 	# print doc.childNodes[1].childNodes[1].getAttribute("id")
 	#Get all child nodes of your root-element or any element surrounding your "target" (in my example "cmmn:casePlanModel")
 	nodelist = doc.getElementsByTagName("g")[0].childNodes
-	print nodelist
+	print(nodelist)
 	# i=0
 	# for i in range(len(nodelist)):
 	# 	if nodelist[i].getAttribute("id") == groupname:
@@ -50,18 +56,24 @@ def calculatesvggroup(svg):
 	print ("PLOTTING stuff")
 	# plotter.select_pen(pen)
 	g = shapes.group([])
-	# paths, attributes, svg_attributes = svg2paths2(svg)
-	# print svg_attributes
-	paths, attributes = svg2paths(svg)
-	# print attributes
-	print dir(paths[0][0].start.real)
-	for path in paths:
+	h = shapes.group([])
+	paths, attributes, svg_attributes = svg2paths2(svg)
+	#print svg_attributes
+	#paths, attributes = svg2paths(svg)
+	#print attributes
+#	print dir(paths[0][0].start.real)
+	for idx, path in enumerate(paths):
+		stroke = attributes[idx]['stroke']
+		if stroke == 'rgb(157, 20, 170)': 
+			layer = g
+		if stroke == 'rgb(0, 119, 0)': 
+			layer = h
 		for segment in path:
 			if isinstance(segment, Line):
-				g.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
+				layer.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
 			if isinstance(segment, CubicBezier):
-				print "Line found"
-				g.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
+				print("Line found")
+				layer.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
 	bb = get_bounding_rectangle(g)
 	bb = get_minmax_coordinates(bb.points)
 	print (bb)
@@ -69,15 +81,25 @@ def calculatesvggroup(svg):
 	print (svg + " is " + str(g.height*plotunit) + "mm")
 	# plotter.write(g)
 	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
-	io.view(g)
-	return({'group': g, 'bounds': bb})
+	transforms.offset(h, (-bb[0][0], -bb[0][1] ))
+	#scale to fullsize
+	sc = 10000/g.width
+	transforms.scale(g, sc)
+	transforms.scale(h, sc)
+	transforms.offset(g, (500,500))
+	transforms.offset(h, (500,500))
+	#io.view(g)
+	return({'group': [g,h], 'bounds': bb})
 
 
 def grabSVGandplotWithChiplotle(file):
-    # shape = calculatesvggroup(getGroup(file.encode('utf-8'), 'fressstylelayer_LineSet'))
-    shape = calculatesvggroup(file.encode('utf-8'))
-    print (shape)
-    plotter.write(shape)
+	# shape = calculatesvggroup(getGroup(file.encode('utf-8'), 'fressstylelayer_LineSet'))
+	shape = calculatesvggroup(file.encode('utf-8'))
+	print (shape['group'][0])
+	for idx, gr in enumerate(shape['group']):
+		plotter.select_pen(idx+1)
+		plotter.write(gr)
+	io.view(plotter)
 
 
 

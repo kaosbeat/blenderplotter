@@ -21,11 +21,22 @@ so using call from the belnder script to comunicate with chiplotle
 https://github.com/mathandy/svgpathtools
 
 
+###  current use
+$ /Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- mysvg.svg
+
+this produces an SVG named mysvg.svg
+then we pass it on to the next script in a python2.7 env
+
+(python2.7)$ python plotrender.py mysvg.svg
+
+
+
+
 ## TODO
 ### pipeline template
 * run script that generates geometry in blender
 * render the script  (preferably in the background) to SVG lines
-** use differnt linestyles for hidden lines
+* use differnt linestyles for hidden lines
 * pipe the output to chiplotle
-
+* make a git commit
 
