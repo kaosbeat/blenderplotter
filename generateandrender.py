@@ -9,6 +9,7 @@ layers[0] = True
 add_cube = bpy.ops.mesh.primitive_cube_add
 
 print(sys.argv)
+sysargvoffset = 6
 
 def dosomegeom():
     for locx in range(0,15,3):
@@ -17,7 +18,7 @@ def dosomegeom():
 
 def multicubegeom():
     #rot = [23,45,15]
-    cubenum = sys.argv[2]
+    cubenum = sys.argv[sysargvoffset+2]
     rot = [random.random()*90,45,15]
     for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
@@ -54,7 +55,7 @@ def setRenderParams():
 
 def renderStuff():
     #render image
-    bpy.context.scene.render.filepath = './sys.argv[1]'
+    bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
     bpy.ops.render.render( write_still=True )
     
 def calculatesvggroup(svg):
@@ -80,19 +81,19 @@ def calculatesvggroup(svg):
 	io.view(g)
 #    return {'group': g, 'bounds': bb}
 
-def initPlotter():
-    virtualplotting = True
-    if (virtualplotting == True):
-        plotter = instantiate_virtual_plotter(type="DXY1300")
-    else:
-        plotter = instantiate_plotters( )[0]
+# def initPlotter():
+#     virtualplotting = True
+#     if (virtualplotting == True):
+#         plotter = instantiate_virtual_plotter(type="DXY1300")
+#     else:
+#         plotter = instantiate_plotters( )[0]
 
 
 
-def grabSVGandplotWithChiplotle():
-    file = "blah0001.svg"
-    shape = calculatesvggroup(file.encode('utf-8'))
-    plotter.write(shape)
+# def grabSVGandplotWithChiplotle():
+#     file = "blah0001.svg"
+#     shape = calculatesvggroup(file.encode('utf-8'))
+#     plotter.write(shape)
 
 
 #dosomegeom()
