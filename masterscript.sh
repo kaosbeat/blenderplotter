@@ -21,4 +21,4 @@ cp $PWD/$filename $PWD/processed_$filename
 /usr/local/bin/inkscape $PWD/processed_$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSave --verb FileQuit
 git add $filename
 git commit -a -m "plotting $filename"
-python plotrender.py $PWD/$filename $3
+python plotrender.py $PWD/$filename $3 union

@@ -16,18 +16,19 @@ def dosomegeom():
             print("blasah")
             add_cube(location=[locx*1,locy*1,random.random()*3])
 
-def multicubegeom():
-    rot = [23,45,15]
-    #rot = [random.random()*90,random.random()*90,random.random()*90]
+def multicubegeom(union):
+    #rot = [23,45,15]
+    rot = [random.random()*90,random.random()*90,random.random()*90]
     cubenum = sys.argv[sysargvoffset+2]
     for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
         rad = random.random()*2
         #rad = random.random()*0.2+0.3
         add_cube(location=loc,rotation=rot, radius=rad)
-    bpy.ops.object.select_all(action='SELECT')
-    bpy.ops.object.modifier_apply(modifier="Auto Boolean")
-    bpy.ops.btool.auto_union(solver='BMESH')
+    if (union == 'union'):
+        bpy.ops.object.select_all(action='SELECT')
+        bpy.ops.object.modifier_apply(modifier="Auto Boolean")
+        bpy.ops.btool.auto_union(solver='BMESH')
 
 
 def setFreestyleContext():
@@ -101,7 +102,7 @@ def grabSVGandplotWithChiplotle():
 
 
 #dosomegeom()
-multicubegeom()
+multicubegeom(sys.argv[sysargvoffset+1])
 setFreestyleContext()
 setRenderParams()
 renderStuff()
