@@ -63,42 +63,6 @@ def renderStuff():
     bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
     bpy.ops.render.render( write_still=True )
     
-def calculatesvggroup(svg):
-	print ("PLOTTING stuff")
-	# plotter.select_pen(pen)
-	g = shapes.group([])
-	paths, attributes = svg2paths(svg)
-	# print dir(paths[0][0].start.real)
-	for path in paths:
-		for segment in path:
-			if isinstance(segment, Line):
-				# print "Line found"
-				g.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
-			if isinstance(segment, CubicBezier):
-				g.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
-	bb = get_bounding_rectangle(g)
-	bb = get_minmax_coordinates(bb.points)
-	print (bb)
-	print (svg + " is " + str(g.width*plotunit) + "mm")
-	print (svg + " is " + str(g.height*plotunit) + "mm")
-	# plotter.write(g)
-	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
-	io.view(g)
-#    return {'group': g, 'bounds': bb}
-
-def initPlotter():
-    virtualplotting = True
-    if (virtualplotting == True):
-        plotter = instantiate_virtual_plotter(type="DXY1300")
-    else:
-        plotter = instantiate_plotters( )[0]
-
-
-
-def grabSVGandplotWithChiplotle():
-    file = "blah0001.svg"
-    shape = calculatesvggroup(file.encode('utf-8'))
-    plotter.write(shape)
 
 
 #dosomegeom()
@@ -107,5 +71,3 @@ setFreestyleContext()
 setRenderParams()
 renderStuff()
 print("doing: " + sys.argv[sysargvoffset+3])
-#initPlotter()
-#grabSVGandplotWithChiplotle()

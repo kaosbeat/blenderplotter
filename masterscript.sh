@@ -1,14 +1,15 @@
 #!/bin/bash
 #detect if we have all arguments
 
-if [ $# == 4 ]; then
+if [ $# == 5 ]; then
     echo "The outputfilenamebase is $1"
     echo "the number of cubes is $2"
     echo "you will be using the virtualplotter: $3"
-    echo "you will be using the virtualplotter: $4"
+    echo "you will be using: $4"
+    echo "you will be rendering $5 lines"
 
 else
-    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting True/False"
+    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not"
     exit
 fi
 
@@ -23,4 +24,4 @@ cp $PWD/$filename $PWD/processed_$filename
 /usr/local/bin/inkscape $PWD/processed_$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSave --verb FileQuit
 git add $filename
 git commit -a -m "plotting $filename"
-python plotrender.py $PWD/$filename $3
+python plotrender.py $PWD/$filename $3 $5
