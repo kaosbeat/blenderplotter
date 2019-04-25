@@ -1,29 +1,28 @@
 import bpy
-import sys
 #from chiplotle import *
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
 
 layers = [False]*20
 layers[0] = True
-add_cube = bpy.ops.mesh.primitive_cube_add
 
-print(sys.argv)
-sysargvoffset = 5
+add_cube = bpy.ops.mesh.primitive_cube_add
 
 def dosomegeom():
     for locx in range(0,15,3):
         for locy in range(0,15,5):
+            print("blasah")
             add_cube(location=[locx*1,locy*1,random.random()*3])
 
 def multicubegeom():
-    #rot = [23,45,15]
-    cubenum = sys.argv[sysargvoffset+2]
-    rot = [random.random()*90,random.random()*90,random.random()*90]
-    for i in range(0,int(cubenum),1):
+    rot = [23,45,15]
+    for i in range(0,10,1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
-        rad = random.random()*0.2+0.3
+        rad = random.random()*2
         add_cube(location=loc,rotation=rot, radius=rad)
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.modifier_apply(modifier="Auto Boolean")
+    bpy.ops.btool.auto_union(solver='BMESH')
 
 
 def setFreestyleContext():
@@ -55,7 +54,7 @@ def setRenderParams():
 
 def renderStuff():
     #render image
-    bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
+    bpy.context.scene.render.filepath = './blaah'
     bpy.ops.render.render( write_still=True )
     
 def calculatesvggroup(svg):
@@ -81,19 +80,19 @@ def calculatesvggroup(svg):
 	io.view(g)
 #    return {'group': g, 'bounds': bb}
 
-# def initPlotter():
-#     virtualplotting = True
-#     if (virtualplotting == True):
-#         plotter = instantiate_virtual_plotter(type="DXY1300")
-#     else:
-#         plotter = instantiate_plotters( )[0]
+def initPlotter():
+    virtualplotting = True
+    if (virtualplotting == True):
+        plotter = instantiate_virtual_plotter(type="DXY1300")
+    else:
+        plotter = instantiate_plotters( )[0]
 
 
 
-# def grabSVGandplotWithChiplotle():
-#     file = "blah0001.svg"
-#     shape = calculatesvggroup(file.encode('utf-8'))
-#     plotter.write(shape)
+def grabSVGandplotWithChiplotle():
+    file = "blah0001.svg"
+    shape = calculatesvggroup(file.encode('utf-8'))
+    plotter.write(shape)
 
 
 #dosomegeom()
