@@ -2,11 +2,13 @@ import bpy
 #from chiplotle import *
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
+import sys
 
 layers = [False]*20
 layers[0] = True
-
+print(sys.argv)
 add_cube = bpy.ops.mesh.primitive_cube_add
+sysargvoffset = 5
 
 def dosomegeom():
     for locx in range(0,15,3):
@@ -16,9 +18,12 @@ def dosomegeom():
 
 def multicubegeom():
     rot = [23,45,15]
-    for i in range(0,10,1):
+    #rot = [random.random()*90,random.random()*90,random.random()*90]
+    cubenum = sys.argv[sysargvoffset+2]
+    for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
         rad = random.random()*2
+        #rad = random.random()*0.2+0.3
         add_cube(location=loc,rotation=rot, radius=rad)
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.modifier_apply(modifier="Auto Boolean")
@@ -54,7 +59,7 @@ def setRenderParams():
 
 def renderStuff():
     #render image
-    bpy.context.scene.render.filepath = './blaah'
+    bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
     bpy.ops.render.render( write_still=True )
     
 def calculatesvggroup(svg):
