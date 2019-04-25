@@ -83,8 +83,9 @@ def calculatesvggroup(svg):
 			if isinstance(segment, CubicBezier):
 				print("Bezier found")
 			#	layer.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
-		if (sys.argv[3] == 'hidden' & layer == h):
-			layer.append(shapes.path(p))
+		if (sys.argv[3] == 'hidden'):
+			if (layer == h):
+				layer.append(shapes.path(p))
 	bb = get_bounding_rectangle(g)
 	bb = get_minmax_coordinates(bb.points)
 	print (bb)
