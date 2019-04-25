@@ -1,15 +1,16 @@
 #!/bin/bash
 #detect if we have all arguments
 
-if [ $# == 5 ]; then
+if [ $# == 6 ]; then
     echo "The outputfilenamebase is $1"
     echo "the number of cubes is $2"
     echo "you will be using the virtualplotter: $3"
     echo "you will be using: $4"
     echo "you will be rendering $5 lines"
+    echo "processing in inkscape: $6"
 
 else
-    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not"
+    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not, processing process/noprocess"
     exit
 fi
 
@@ -20,8 +21,13 @@ echo $filename
 /Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- $filename $2 $4
 filename+=0000.svg 
 echo $filename
-cp $PWD/$filename $PWD/processed_$filename
-/usr/local/bin/inkscape $PWD/processed_$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSave --verb FileQuit
+if [ $6 == process ]; then
+    cp $PWD/$filename $PWD/processed_$filename
+    /usr/local/bin/inkscape $PWD/processed_$filename --verb EditSelectAll --verb SelectionSimplify --verb FileSave --verb FileQuit
+    python plotrender.py $PWD/processed_$filename $3 $5
+else
+    python plotrender.py $PWD/$filename $3 $5
+fi
 git add $filename
 git commit -a -m "plotting $filename"
-python plotrender.py $PWD/$filename $3 $5
+
