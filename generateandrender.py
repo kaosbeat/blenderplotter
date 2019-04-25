@@ -102,9 +102,10 @@ def grabSVGandplotWithChiplotle():
 
 
 #dosomegeom()
-multicubegeom(sys.argv[sysargvoffset+1])
+multicubegeom(sys.argv[sysargvoffset+3])
 setFreestyleContext()
 setRenderParams()
 renderStuff()
+print("doing: " + sys.argv[sysargvoffset+3])
 #initPlotter()
 #grabSVGandplotWithChiplotle()

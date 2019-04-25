@@ -66,9 +66,9 @@ def calculatesvggroup(svg):
 	
 #	print dir(paths[0][0].start.real)
 	for idx, path in enumerate(paths):
-		print('\n')
-		print(idx)
-		print attributes[idx]['stroke']
+		#print('\n')
+		#print(idx)
+		#print attributes[idx]['stroke']
 		stroke = attributes[idx]['stroke']
 		if stroke == 'rgb(157, 20, 170)': 
 			layer = g
