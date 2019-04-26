@@ -31,6 +31,6 @@ else
 fi
 git add $filename
 git commit -a -m "plotting $filename"
-if [$7 == tweet ]; then
-    python tweetplot.py "this is an automated post of dev progress" $pngname
+if [$7 == twitter ]; then
+    python tweetplot.py "this is an automated post of dev progress. $0" $pngname
 fi
