@@ -1,16 +1,16 @@
 #!/bin/bash
 #detect if we have all arguments
 
-if [ $# == 6 ]; then
+if [ $# == 7 ]; then
     echo "The outputfilenamebase is $1"
     echo "the number of cubes is $2"
     echo "you will be using the virtualplotter: $3"
     echo "you will be using: $4"
     echo "you will be rendering $5 lines"
     echo "processing in inkscape: $6"
-
+    echo "public using  $7"
 else
-    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not, processing process/noprocess"
+    echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not, processing process/noprocess, twitter/nothing"
     exit
 fi
 
@@ -31,5 +31,6 @@ else
 fi
 git add $filename
 git commit -a -m "plotting $filename"
-python tweetplot.py "this is an automated post of dev progress" $pngname
-
+if [$7 == tweet ]; then
+    python tweetplot.py "this is an automated post of dev progress" $pngname
+fi
