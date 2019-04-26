@@ -16,8 +16,9 @@ fi
 
 filename=$1_$(date +"%m_%d_%Y_%H%M")
 echo $filename
-
-### first generate geometry in blender, pass on filenames from argument, as well as parameters for geometry script
+pngname=$filename.png
+echo $pngname
+## first generate geometry in blender, pass on filenames from argument, as well as parameters for geometry script
 /Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- $filename $2 $4
 filename+=0000.svg 
 echo $filename
@@ -30,4 +31,5 @@ else
 fi
 git add $filename
 git commit -a -m "plotting $filename"
+python tweetplot.py "this is an automated post of dev progress" $pngname
 
