@@ -86,6 +86,8 @@ def calculatesvggroup(svg):
 		if (sys.argv[3] == 'hidden'):
 			if (layer == h):
 				layer.append(shapes.path(p))
+		if (layer == g):
+			layer.append(shapes.path(p))		
 	bb = get_bounding_rectangle(g)
 	bb = get_minmax_coordinates(bb.points)
 	print (bb)
@@ -95,7 +97,9 @@ def calculatesvggroup(svg):
 	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
 	transforms.offset(h, (-bb[0][0], -bb[0][1] ))
 	#scale to fullsize
-	sc = max([10000/g.width,10000/h.width,12000/g.height,12000/h.height])
+	sc = min([10000/g.width,10000/h.width,12000/g.height,12000/h.height])
+	print([10000/g.width,10000/h.width,12000/g.height,12000/h.height])
+	print (sc)
 	transforms.scale(g, sc)
 	transforms.scale(h, sc)
 	transforms.offset(g, (500,500))
