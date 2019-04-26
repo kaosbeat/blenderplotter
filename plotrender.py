@@ -95,7 +95,7 @@ def calculatesvggroup(svg):
 	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
 	transforms.offset(h, (-bb[0][0], -bb[0][1] ))
 	#scale to fullsize
-	sc = 10000/g.width
+	sc = max([10000/g.width,10000/h.width,12000/g.height,12000/h.height])
 	transforms.scale(g, sc)
 	transforms.scale(h, sc)
 	transforms.offset(g, (500,500))
