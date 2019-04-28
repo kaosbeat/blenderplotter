@@ -87,7 +87,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage =100
+    bpy.context.scene.render.resolution_percentage =50
     
 
 
@@ -104,5 +104,5 @@ def renderStuff():
 addtextstuff("I lost Control",0.7   )
 setFreestyleContext()
 setRenderParams()
-#renderStuff()
+renderStuff()
 #print("doing: " + sys.argv[sysargvoffset+3])
