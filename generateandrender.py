@@ -87,7 +87,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage =50
+    bpy.context.scene.render.resolution_percentage = 30
     
 
 
@@ -101,7 +101,7 @@ def renderStuff():
 #dosomegeom()
 #multicubegeom(sys.argv[sysargvoffset+3])
 #bezierStack()
-addtextstuff("I lost Control",0.7   )
+addtextstuff(sys.argv[sysargvoffset+4],0.7   )
 setFreestyleContext()
 setRenderParams()
 renderStuff()

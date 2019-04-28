@@ -20,7 +20,7 @@ echo $filename
 pngname=$filename.png
 echo $pngname
 ## first generate geometry in blender, pass on filenames from argument, as well as parameters for geometry script
-/Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- $filename $2 $4
+/Applications/Blender/blender.app/Contents/MacOS/blender stroketesting.blend --background --python generateandrender.py -- $filename $2 $4 $8
 filename+=0000.svg 
 echo $filename
 if [ $6 == process ]; then
