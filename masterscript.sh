@@ -1,7 +1,7 @@
 #!/bin/bash
 #detect if we have all arguments
 
-if [ $# == 7 ]; then
+if [ $# == 8 ]; then
     echo "The outputfilenamebase is $1"
     echo "the number of cubes is $2"
     echo "you will be using the virtualplotter: $3"
@@ -9,6 +9,7 @@ if [ $# == 7 ]; then
     echo "you will be rendering $5 lines"
     echo "processing in inkscape: $6"
     echo "public using  $7"
+    echo " will be plotting this text in 3D: $8"
 else
     echo "please supply all needed arguments: filenamebase, numberofcubes, virtualplotting virtual/real, union bool union/nounion, hiddenlines hidden/not, processing process/noprocess, twitter/nothing"
     exit

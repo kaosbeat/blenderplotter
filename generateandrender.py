@@ -7,7 +7,6 @@ import sys
 layers = [False]*20
 layers[0] = True
 print(sys.argv)
-add_cube = bpy.ops.mesh.primitive_cube_add
 sysargvoffset = 5
 
 def dosomegeom():
@@ -16,6 +15,8 @@ def dosomegeom():
             print("blasah")
             add_cube(location=[locx*1,locy*1,random.random()*3])
 
+
+add_cube = bpy.ops.mesh.primitive_cube_add
 def multicubegeom(union):
     #rot = [23,45,15]
     rot = [random.random()*90,random.random()*90,random.random()*90]
@@ -29,6 +30,38 @@ def multicubegeom(union):
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.modifier_apply(modifier="Auto Boolean")
         bpy.ops.btool.auto_union(solver='BMESH')
+
+add_curve = bpy.ops.curve.primitive_bezier_curve_add
+def bezierStack():
+    loc = [random.random()*3, random.random()*3, random.random()*3]
+    add_curve(view_align=False, location=loc)
+    pass
+
+
+def addtextstuff(text, scale):
+    #bpy.ops.font.open(filepath="//../plotterexperiments/rus.ttf", relative_path=True)
+    for idx,letter in enumerate(text):
+        print(idx,letter)
+        bpy.ops.object.text_add(view_align=False, enter_editmode=False, location=(idx*scale,0,0))
+        bpy.ops.object.editmode_toggle()
+        bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
+        bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
+        bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
+        bpy.ops.font.delete(type='PREVIOUS_OR_SELECTION')
+        bpy.ops.font.text_insert(text=letter)
+        bpy.ops.object.editmode_toggle()
+        bpy.context.object.data.font = bpy.data.fonts["Russian"]
+        bpy.context.object.data.extrude = 0.1
+        bpy.context.object.data.bevel_depth = 0.1
+        bpy.ops.object.convert(target='MESH')
+
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.modifier_apply(modifier="Auto Boolean")
+    bpy.ops.btool.auto_union(solver='BMESH')
+    #bpy.ops.mesh.remove_doubles()
+    bpy.ops.transform.rotate(value=1.22173, axis=(1, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
+    bpy.ops.transform.rotate(value=-1.5708, axis=(0, 0, 1), constraint_axis=(False, False, True), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
+    bpy.ops.transform.translate(value=(-4.61079, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1, release_confirm=True, use_accurate=False)
 
 
 def setFreestyleContext():
@@ -52,8 +85,8 @@ def setFreestyleContext():
 
 def setRenderParams():
     
-    bpy.context.scene.render.resolution_y = 1500 
-    bpy.context.scene.render.resolution_x = 1500
+    bpy.context.scene.render.resolution_y = 2970 
+    bpy.context.scene.render.resolution_x = 4200
     bpy.context.scene.render.resolution_percentage =100
     
 
@@ -66,8 +99,10 @@ def renderStuff():
 
 
 #dosomegeom()
-multicubegeom(sys.argv[sysargvoffset+3])
+#multicubegeom(sys.argv[sysargvoffset+3])
+#bezierStack()
+addtextstuff("I lost Control",0.7   )
 setFreestyleContext()
 setRenderParams()
-renderStuff()
-print("doing: " + sys.argv[sysargvoffset+3])
+#renderStuff()
+#print("doing: " + sys.argv[sysargvoffset+3])
