@@ -63,6 +63,12 @@ def addtextstuff(text, scale):
     bpy.ops.transform.rotate(value=1.22173, axis=(1, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
     bpy.ops.transform.rotate(value=-1.5708, axis=(0, 0, 1), constraint_axis=(False, False, True), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
     bpy.ops.transform.translate(value=(-8.2, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1, release_confirm=True, use_accurate=False)
+   # bpy.context.object.data.extrude = 1
+ #   v = bpy.context.object.dimensions
+    
+#    v[0]
+    bpy.ops.view3d.camera_to_view_selected()
+    bpy.ops.transform.resize(value=(0.99, 0.99, 0.99), constraint_axis=(False, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
 
 def setFreestyleContext():
@@ -88,7 +94,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage = 10
+    bpy.context.scene.render.resolution_percentage = 50
     
 
 
@@ -102,6 +108,7 @@ def renderStuff():
 #dosomegeom()
 #multicubegeom(sys.argv[sysargvoffset+3])
 #bezierStack()
+
 #addtextstuff("errors and mistakes",0.7)
 addtextstuff(sys.argv[sysargvoffset+4],0.7)
 setFreestyleContext()
