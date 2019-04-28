@@ -88,7 +88,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage = 100
+    bpy.context.scene.render.resolution_percentage = 10
     
 
 
