@@ -39,6 +39,7 @@ def bezierStack():
 
 
 def addtextstuff(text, scale):
+    print ("plottinhG: "+ text)
     #bpy.ops.font.open(filepath="//../plotterexperiments/rus.ttf", relative_path=True)
     for idx,letter in enumerate(text):
         print(idx,letter)
@@ -61,7 +62,7 @@ def addtextstuff(text, scale):
     #bpy.ops.mesh.remove_doubles()
     bpy.ops.transform.rotate(value=1.22173, axis=(1, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
     bpy.ops.transform.rotate(value=-1.5708, axis=(0, 0, 1), constraint_axis=(False, False, True), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
-    bpy.ops.transform.translate(value=(-4.61079, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1, release_confirm=True, use_accurate=False)
+    bpy.ops.transform.translate(value=(-8.2, 0, 0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1, release_confirm=True, use_accurate=False)
 
 
 def setFreestyleContext():
@@ -87,7 +88,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage = 30
+    bpy.context.scene.render.resolution_percentage = 100
     
 
 
@@ -101,7 +102,8 @@ def renderStuff():
 #dosomegeom()
 #multicubegeom(sys.argv[sysargvoffset+3])
 #bezierStack()
-addtextstuff(sys.argv[sysargvoffset+4],0.7   )
+#addtextstuff("errors and mistakes",0.7)
+addtextstuff(sys.argv[sysargvoffset+4],0.7)
 setFreestyleContext()
 setRenderParams()
 renderStuff()
