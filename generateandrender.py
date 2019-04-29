@@ -4,7 +4,7 @@ import bpy
 import random
 import sys
 import tracery
-import lib.tools as tools
+from tracery.modifiers import base_english
 
 layers = [False]*20
 layers[0] = True
@@ -104,18 +104,31 @@ def renderStuff():
     #render image
     bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
     bpy.ops.render.render( write_still=True )
-    
+
+
+rules = {
+    'origin': '#hello.capitalize#, #location#!',
+    'hello': ['hello', 'greetings', 'howdy', 'hey'],
+    'location': ['world', 'solar system', 'galaxy', 'universe']
+}
+
+grammar = tracery.Grammar(rules)
+grammar.add_modifiers(base_english)
+
+def dostufff():
+  #  print(grammar.flatten("#origin#"))  # prints, e.g., "Hello, world!"
+    return(grammar.flatten("#origin#"))
 
 
 #dosomegeom()
 multicubegeom(sys.argv[sysargvoffset+3])
 #bezierStack()
 
-#addtextstuff("errors and mistakes",0.7)
-#text = tools.dostufff()
-#addtextstuff(text,0.7)
+# #addtextstuff("errors and mistakes",0.7)
+# text = dostufff()
+# addtextstuff(text,0.7)
 #addtextstuff(sys.argv[sysargvoffset+4],0.7)
 setFreestyleContext()
 setRenderParams()
-renderStuff()
+#renderStuff()
 #print("doing: " + sys.argv[sysargvoffset+3])
