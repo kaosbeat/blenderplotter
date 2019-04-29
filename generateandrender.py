@@ -21,11 +21,11 @@ def dosomegeom():
 add_cube = bpy.ops.mesh.primitive_cube_add
 def multicubegeom(cubenum, union):
     #rot = [23,45,15]
-    rot = [random.random()*90,random.random()*90,random.random()*90]
     for i in range(0,int(cubenum),1):
+        rot = [random.random()*90,random.random()*90,random.random()*90]
         loc = [random.random()*3, random.random()*3, random.random()*3]
         #rad = random.random()*2
-        rad = random.random()*0.2+0.3
+        rad = random.random()*0.2+2.3
         add_cube(location=loc,rotation=rot, radius=rad)
     if (union == 'union'):
         bpy.ops.object.select_all(action='SELECT')
