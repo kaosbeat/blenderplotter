@@ -100,7 +100,7 @@ def calculatesvggroup(svg):
 	#scale to fullsize
 	print([15000/g.width,15000/h.width,10000/g.height,10000/h.height])
 	#sc = min( [15000/g.width, 15000/h.width, 10000/g.height, 10000/h.height])
-	sc = min([15000/g.width 10000/g.height])
+	sc = min([15000/g.width, 10000/g.height])
 	print (sc)
 	transforms.scale(g, sc)
 	transforms.scale(h, sc)
