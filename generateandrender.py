@@ -27,7 +27,7 @@ def multicubegeom(cubenum, union):
         #rad = random.random()*2
         rad = random.random()*1.3
         add_cube(location=loc,rotation=rot, radius=rad)
-        bpy.ops.transform.resize(value=(random.random()*10, 1.0, 1.0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', )
+        bpy.ops.transform.resize(value=(random.random()*40, 1.0, 1.0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', )
     if (union == 'union'):
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.modifier_apply(modifier="Auto Boolean")
