@@ -19,10 +19,9 @@ def dosomegeom():
 
 
 add_cube = bpy.ops.mesh.primitive_cube_add
-def multicubegeom(union):
+def multicubegeom(cubenum, union):
     #rot = [23,45,15]
     rot = [random.random()*90,random.random()*90,random.random()*90]
-    cubenum = sys.argv[sysargvoffset+2]
     for i in range(0,int(cubenum),1):
         loc = [random.random()*3, random.random()*3, random.random()*3]
         #rad = random.random()*2
@@ -121,7 +120,8 @@ def dostufff():
 
 
 #dosomegeom()
-multicubegeom(sys.argv[sysargvoffset+3])
+multicubegeom(sys.argv[sysargvoffset+2], sys.argv[sysargvoffset+3])
+#multicubegeom(30, 'union')
 #bezierStack()
 
 # #addtextstuff("errors and mistakes",0.7)
