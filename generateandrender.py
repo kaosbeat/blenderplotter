@@ -4,7 +4,7 @@ import bpy
 import random
 import sys
 import tracery
-import .lib.tools as tools
+import lib.tools as tools
 
 layers = [False]*20
 layers[0] = True
