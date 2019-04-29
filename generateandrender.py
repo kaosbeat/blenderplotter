@@ -21,13 +21,12 @@ def dosomegeom():
 add_cube = bpy.ops.mesh.primitive_cube_add
 def multicubegeom(cubenum, union):
     #rot = [23,45,15]
+    rot = [random.random()*90,random.random()*90,random.random()*90]
     for i in range(0,int(cubenum),1):
-        rot = [random.random()*90,random.random()*90,random.random()*90]
         loc = [random.random()*3, random.random()*3, random.random()*3]
         #rad = random.random()*2
-        rad = random.random()*1.3
+        rad = random.random()*0.2+0.3
         add_cube(location=loc,rotation=rot, radius=rad)
-        bpy.ops.transform.resize(value=(random.random()*40, 1.0, 1.0), constraint_axis=(True, False, False), constraint_orientation='GLOBAL', )
     if (union == 'union'):
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.modifier_apply(modifier="Auto Boolean")
@@ -98,7 +97,7 @@ def setRenderParams():
     
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
-    bpy.context.scene.render.resolution_percentage = 50
+    bpy.context.scene.render.resolution_percentage = 10
     
 
 
