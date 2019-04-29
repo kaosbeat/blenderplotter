@@ -98,9 +98,10 @@ def calculatesvggroup(svg):
 	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
 	transforms.offset(h, (-bb[0][0], -bb[0][1] ))
 	#scale to fullsize
-	print([15000/g.width,15000/h.width,10000/g.height,10000/h.height])
-	#sc = min( [15000/g.width, 15000/h.width, 10000/g.height, 10000/h.height])
-	sc = min([15000/g.width, 10000/g.height])
+	if len(h) > 0:
+		sc = min( [15000/g.width, 15000/h.width, 10000/g.height, 10000/h.height])
+	else:
+		sc = min([15000/g.width, 10000/g.height])
 	print (sc)
 	transforms.scale(g, sc)
 	transforms.scale(h, sc)
