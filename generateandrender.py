@@ -25,7 +25,7 @@ def multicubegeom(cubenum, union):
         rot = [random.random()*90,random.random()*90,random.random()*90]
         loc = [random.random()*3, random.random()*3, random.random()*3]
         #rad = random.random()*2
-        rad = random.random()*0.2+2.3
+        rad = random.random()*0.2+1.3
         add_cube(location=loc,rotation=rot, radius=rad)
     if (union == 'union'):
         bpy.ops.object.select_all(action='SELECT')
