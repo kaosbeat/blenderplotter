@@ -3,6 +3,8 @@ import bpy
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
 import sys
+import tracery
+import .lib.tools as tools
 
 layers = [False]*20
 layers[0] = True
@@ -106,11 +108,13 @@ def renderStuff():
 
 
 #dosomegeom()
-#multicubegeom(sys.argv[sysargvoffset+3])
+multicubegeom(sys.argv[sysargvoffset+3])
 #bezierStack()
 
 #addtextstuff("errors and mistakes",0.7)
-addtextstuff(sys.argv[sysargvoffset+4],0.7)
+#text = tools.dostufff()
+#addtextstuff(text,0.7)
+#addtextstuff(sys.argv[sysargvoffset+4],0.7)
 setFreestyleContext()
 setRenderParams()
 renderStuff()

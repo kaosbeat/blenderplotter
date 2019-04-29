@@ -16,9 +16,12 @@ with python 2.7
 ### blender
 with python 3.5.3 API
 
-so using call from the belnder script to comunicate with chiplotle
+so using call from the blender script to comunicate with chiplotle
 ### svgPathTools (python)
 https://github.com/mathandy/svgpathtools
+
+##install extra python libraries in blender
+
 
 
 ###  current use
