@@ -31,6 +31,8 @@ def multicubegeom(cubenum, union):
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.modifier_apply(modifier="Auto Boolean")
         bpy.ops.btool.auto_union(solver='BMESH')
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.view3d.camera_to_view_selected()
 
 add_curve = bpy.ops.curve.primitive_bezier_curve_add
 def bezierStack():
