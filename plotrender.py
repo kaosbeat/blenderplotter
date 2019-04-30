@@ -4,13 +4,14 @@ from chiplotle.tools.geometrytools.get_minmax_coordinates import get_minmax_coor
 from xml.dom import minidom
 # import xpath
 from plothelpers import sign
-
 from svgpathtools import svg2paths, svg2paths2, Path, Line, Arc, CubicBezier, QuadraticBezier
 import sys
 
+exit
+
 plotunit = 0.025
 virtualplotting = sys.argv[2]
-print(virtualplotting)
+#print(virtualplotting)
 if (virtualplotting == 'virtual'):
 		plotter = instantiate_virtual_plotter(type="DXY1300")
 if (virtualplotting == 'real'):
@@ -61,34 +62,58 @@ def calculatesvggroup(svg):
 	g = shapes.group([])
 	h = shapes.group([])
 	paths, attributes, svg_attributes = svg2paths2(svg)
-	#print svg_attributes
+	#print attributes
 	#paths, attributes = svg2paths(svg)
-	
 #	print dir(paths[0][0].start.real)
 	for idx, path in enumerate(paths):
-		#print('\n')
-		#print(idx)
+		# print('\n')
+		# print(idx)
 		#print attributes[idx]['stroke']
 		stroke = attributes[idx]['stroke']
-		if stroke == 'rgb(157, 20, 170)': 
+		layer = h
+		if stroke == 'rgb(157, 20, 170)':
+			layer = g
+		if stroke == '#f0f': 
 			layer = g
 		if stroke == 'rgb(0, 119, 0)': 
 			layer = h
-		p = []
-		p.append((path[0].start.real,path[0].start.imag))
+		if stroke == '#0f0': 
+			layer = h
+		p = []		
+		if isinstance(path[0], Line):
+			#print("Line instance found", path[0])
+			p.append((path[0].start.real,path[0].start.imag))
+			pathtype = "line"
+		if isinstance(path[0], QuadraticBezier):
+			#print("instance found")
+			#print(path)
+			pathtype = "qbezier"
+			p.append((path[0].start.real,path[0].start.imag))
 		for segment in path:
 			if isinstance(segment, Line):
 				p.append((segment.end.real,segment.end.imag))
+				#print('still appending lines')
 			#	layer.append(shapes.line((segment.start.real,segment.start.imag),(segment.end.real,segment.end.imag)))
-			if isinstance(segment, CubicBezier):
-				print("Bezier found")
-			#	layer.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
+			if isinstance(segment, QuadraticBezier):
+				#print("Bezier found")
+				# p.append(shapes.bezier_path([(segment.start.real,segment.start.imag),(segment.control1.real,segment.control1.imag),(segment.control2.real,segment.control2.imag),(segment.end.real,segment.end.imag)],0))
+				p.append((segment.control.real,segment.control.imag))
+				p.append((segment.end.real,segment.end.imag))
 		if (sys.argv[3] == 'hidden' or sys.argv[3] == 'both'):
 			if (layer == h):
-				layer.append(shapes.path(p))
+				if pathtype == "line":
+					layer.append(shapes.path(p))
+				if pathtype == "qbezier":
+					print("bezier it is", p)
+					layer.append(shapes.bezier_path(p,0.5))
 		if (sys.argv[3] == 'unhidden' or sys.argv[3] == 'both'):
 			if (layer == g):
-				layer.append(shapes.path(p))		
+				if pathtype == "line":
+					layer.append(shapes.path(p))
+				if pathtype == "qbezier":
+					print("bezier it is", p)
+					layer.append(shapes.bezier_path(p,0.5))	
+	print(g,h)
 	bb = get_bounding_rectangle(g)
 	bb = get_minmax_coordinates(bb.points)
 	print (bb)
@@ -98,6 +123,7 @@ def calculatesvggroup(svg):
 	transforms.offset(g, (-bb[0][0], -bb[0][1] ))
 	transforms.offset(h, (-bb[0][0], -bb[0][1] ))
 	#scale to fullsize
+	print(g)
 	if len(h) > 0:
 		sc = min( [15000/g.width, 15000/h.width, 10000/g.height, 10000/h.height])
 	else:
@@ -108,6 +134,7 @@ def calculatesvggroup(svg):
 	transforms.offset(g, (500,500))
 	transforms.offset(h, (500,500))
 	#io.view(g)
+	print ("de groepen", len(g), len(h))
 	return({'group': [g,h], 'bounds': bb})
 
 
@@ -116,6 +143,7 @@ def grabSVGandplotWithChiplotle(file):
 	shape = calculatesvggroup(file.encode('utf-8'))
 	print (shape['group'][0])
 	for idx, gr in enumerate(shape['group']):
+		print("plotting group", idx, len(gr))
 		plotter.select_pen(idx+1)
 		plotter.write(gr)
 	

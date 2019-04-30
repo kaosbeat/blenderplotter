@@ -3,6 +3,7 @@ import bpy
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
 import sys
+import argparse
 import tracery
 from tracery.modifiers import base_english
 
@@ -11,15 +12,23 @@ layers[0] = True
 print(sys.argv)
 sysargvoffset = 5
 
+
+
+
+############################################################################################
+######## GEOMETRY FUNCTIONS ## to be called in order with -g or --geom  ####################
+############################################################################################
 def dosomegeom():
+    add_cube = bpy.ops.mesh.primitive_cube_add
     for locx in range(0,15,3):
         for locy in range(0,15,5):
             print("blasah")
             add_cube(location=[locx*1,locy*1,random.random()*3])
 
 
-add_cube = bpy.ops.mesh.primitive_cube_add
+
 def multicubegeom(cubenum, union):
+    add_cube = bpy.ops.mesh.primitive_cube_add
     #rot = [23,45,15]
     rot = [random.random()*90,random.random()*90,random.random()*90]
     for i in range(0,int(cubenum),1):
@@ -34,8 +43,9 @@ def multicubegeom(cubenum, union):
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.view3d.camera_to_view_selected()
 
-add_curve = bpy.ops.curve.primitive_bezier_curve_add
+
 def bezierStack():
+    add_curve = bpy.ops.curve.primitive_bezier_curve_add
     loc = [random.random()*3, random.random()*3, random.random()*3]
     add_curve(view_align=False, location=loc)
     pass
@@ -73,6 +83,11 @@ def addtextstuff(text, scale):
     bpy.ops.view3d.camera_to_view_selected()
     bpy.ops.transform.resize(value=(0.99, 0.99, 0.99), constraint_axis=(False, False, False), constraint_orientation='GLOBAL', mirror=False, proportional='DISABLED', proportional_edit_falloff='SMOOTH', proportional_size=1)
 
+############################################################################################
+######## RENDER FUNCTIONS ## to be called in order with -r or --render  ####################
+############################################################################################
+
+
 
 def setFreestyleContext():
     bpy.context.scene.render.layers["fressstylelayer"].use_solid = False
@@ -85,25 +100,26 @@ def setFreestyleContext():
     bpy.context.scene.render.layers["fressstylelayer"].use_edge_enhance = False
     bpy.context.scene.render.layers["fressstylelayer"].use_strand = False
     bpy.context.scene.render.layers["fressstylelayer"].use_freestyle = True
-
     bpy.context.scene.render.use_freestyle = True
     #change to script mode
     rl = bpy.context.scene.render.layers.active
     rl.freestyle_settings.mode = 'EDITOR'
 
-
-
-def setRenderParams():
-    
+def setRenderSize(size):
     bpy.context.scene.render.resolution_y = 2970 
     bpy.context.scene.render.resolution_x = 4200
     bpy.context.scene.render.resolution_percentage = 10
+
+def renderToSVG(filename):
+    bpy.data.window_managers["WinMan"].ruta = "/Users/kaos/Documents/005_plotter/blenderplotter/algo3.svg"
+    bpy.ops.export.svg()
+
+def fitCam():
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.view3d.camera_to_view_selected()
     
-
-
-def renderStuff():
+def render():
     #render image
-    bpy.context.scene.render.filepath = './' + sys.argv[sysargvoffset+1]
     bpy.ops.render.render( write_still=True )
 
 
@@ -122,15 +138,39 @@ def dostufff():
 
 
 #dosomegeom()
-multicubegeom(sys.argv[sysargvoffset+2], sys.argv[sysargvoffset+3])
-#multicubegeom(30, 'union')
+#multicubegeom(sys.argv[sysargvoffset+2], sys.argv[sysargvoffset+3])
+
 #bezierStack()
 
 # #addtextstuff("errors and mistakes",0.7)
 # text = dostufff()
 # addtextstuff(text,0.7)
 #addtextstuff(sys.argv[sysargvoffset+4],0.7)
-setFreestyleContext()
-setRenderParams()
-renderStuff()
+#setFreestyleContext()
+#setRenderParams()
+#renderStuff()
 #print("doing: " + sys.argv[sysargvoffset+3])
+
+
+for idx,a in enumerate(sys.argv):
+    if a == '-f':
+        print('setting filepath' )
+        print('./' + sys.argv[idx+1])
+        bpy.context.scene.render.filepath = './' + sys.argv[idx+1]
+
+### call it a second time to make sure filepath is set first
+for idx,a in enumerate(sys.argv):
+    if a == '-g' or a == '--geom':
+        print("hell yeah")
+        print(sys.argv[idx+1])
+        eval(sys.argv[idx+1])
+
+
+### call it a third time to make sure geometry is rendered first
+for idx,a in enumerate(sys.argv):
+    if a == '-r' or a == '--render':
+        print("rendering")
+        setFreestyleContext()
+        setRenderSize(10)
+        render()
+
