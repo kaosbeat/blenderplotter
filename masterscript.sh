@@ -46,7 +46,7 @@ fi
 eval set -- "$PARSED"
 
 echo "$PARSED"
-f=nf b=nb c=nc ink=ni g=ng t=nt
+f=nf b=nb c=nc ink=ni g=ng t=nt plot=0
 # now enjoy the options in order and nicely split until we see --
 
 while true; do

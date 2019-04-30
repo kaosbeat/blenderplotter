@@ -111,7 +111,16 @@ def setRenderSize(size):
     bpy.context.scene.render.resolution_percentage = 10
 
 def renderToSVG():
-    bpy.ops.export.svg()
+    context = bpy.context
+    for area in context.screen.areas:
+        if area.type == 'VIEW_3D':
+            print(area)
+            ctx = {
+                "window": context.window, # current window, could also copy context
+                "area": area, # our 3D View (the first found only actually)
+                "region": None # just to suppress PyContext warning, doesn't seem to have any effect
+            }
+    bpy.ops.export.svg(ctx)
 
 def fitCam():
     bpy.ops.object.select_all(action='SELECT')
@@ -157,7 +166,7 @@ for idx,a in enumerate(sys.argv):
         print('./' + sys.argv[idx+1])
         bpy.context.scene.render.filepath = './' + sys.argv[idx+1]
 
-### call it a second time to make sure filepath is set first
+### call it a second time to make sure filepath is set first before generating
 for idx,a in enumerate(sys.argv):
     if a == '-g' or a == '--geom':
         print("hell yeah")
@@ -165,13 +174,20 @@ for idx,a in enumerate(sys.argv):
         eval(sys.argv[idx+1])
 
 
-### call it a third time to make sure geometry is rendered first
+### call it a third time to make sure geometry is rendered first, set all renderoptions before actually calling render
 for idx,a in enumerate(sys.argv):
     if a == '-r' or a == '--render':
-        print("rendering")
-        fitCam()
-        # renderToSVG()
-        setFreestyleContext()
-        setRenderSize(10)
-        render()
+        if sys.argv[idx+1].split('=')[0] == 'size':
+            print('setting rendersize to ',  sys.argv[idx+1].split('=')[1])
+            setRenderSize(sys.argv[idx+1].split('=')[1])
+        else:
+            setRenderSize(50)
+
+### call it a fourth time actually call render
+for idx,a in enumerate(sys.argv):
+    if a == '-r' or a == '--render':
+        if sys.argv[idx+1] == 'svg':
+            setFreestyleContext()
+            fitCam()
+            render()
 
