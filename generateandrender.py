@@ -110,8 +110,7 @@ def setRenderSize(size):
     bpy.context.scene.render.resolution_x = 4200
     bpy.context.scene.render.resolution_percentage = 10
 
-def renderToSVG(filename):
-    bpy.data.window_managers["WinMan"].ruta = "/Users/kaos/Documents/005_plotter/blenderplotter/algo3.svg"
+def renderToSVG():
     bpy.ops.export.svg()
 
 def fitCam():
@@ -170,6 +169,8 @@ for idx,a in enumerate(sys.argv):
 for idx,a in enumerate(sys.argv):
     if a == '-r' or a == '--render':
         print("rendering")
+        fitCam()
+        # renderToSVG()
         setFreestyleContext()
         setRenderSize(10)
         render()
