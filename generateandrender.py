@@ -3,7 +3,7 @@ import bpy
 #from svgpathtools import svg2paths, Path, Line, Arc, CubicBezier, QuadraticBezier
 import random
 import sys
-import argparse
+# import argparse
 import tracery
 from tracery.modifiers import base_english
 
@@ -163,8 +163,8 @@ def dostufff():
 for idx,a in enumerate(sys.argv):
     if a == '-f':
         print('setting filepath' )
-        print('./' + sys.argv[idx+1])
-        bpy.context.scene.render.filepath = './' + sys.argv[idx+1]
+        print('//../output/' + sys.argv[idx+1])
+        bpy.context.scene.render.filepath = '//../output/' + sys.argv[idx+1]
 
 ### call it a second time to make sure filepath is set first before generating
 for idx,a in enumerate(sys.argv):
